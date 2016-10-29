@@ -73,6 +73,13 @@ public class LinkListAlgorithm {
     }
 
     // 3. 判断给定链表是否有环，如果有的话，找出那个结点
+    //    思路1：用一个map存储Node地址和Node
+    //    思路2：在相遇点断开，让问题演变为找两个链表的第一个公共点
+    // ori: 1 --> 3 --> 4 --> 5 --> 6
+    //                  |           |
+    //                  | <-- 7 <-- |
+    //  l1: 1 --> 3 --> 4 --> 5
+    //  l2: 6 --> 7 --> 4 --> 5
     public int getCircleNode(Node header) {
         boolean isCircle = isCircle(header);
         if (isCircle) {
