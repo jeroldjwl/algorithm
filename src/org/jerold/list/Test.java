@@ -7,14 +7,15 @@ import org.jerold.tree.BinaryTree;
  */
 public class Test {
     public static void main(String[] args) {
-        /*SingleLinkList list = new SingleLinkList();
+        SingleLinkList list = new SingleLinkList();
         list.add(2);
         list.add(4);
         list.add(6);
         list.add(8);
         list.print();
         System.out.println();
-        list.printFromTail();*/
+        list.printFromTail();
+        System.out.println();
         BinaryTree bt = new BinaryTree();
         bt.add(10);
         bt.add(6);

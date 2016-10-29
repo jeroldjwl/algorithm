@@ -124,24 +124,24 @@ public class SingleLinkList<E> implements List<E> {
         }
     }
 
-    class Node {
+    private class Node {
         private E e;
         private Node next;
 
-        public Node(E e) {
+        Node(E e) {
             this.e = e;
             this.next = null;
         }
 
-        public E getValue() {
+        E getValue() {
             return e;
         }
 
-        public Node getNext() {
+        Node getNext() {
             return next;
         }
 
-        public void setNext(Node n) {
+        void setNext(Node n) {
             this.next = n;
         }
     }
