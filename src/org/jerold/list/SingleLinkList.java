@@ -45,6 +45,24 @@ public class SingleLinkList<E> implements List<E> {
         return success;
     }
 
+    public E removeFromTail() {
+        if (size > 0) {
+            Node current = header;
+            while (current.next != tail) {
+                current = current.next;
+            }
+            Node tmp = tail;
+            E e = tmp.e;
+            current.next = null;
+            tail = current;
+            size--;
+            return e;
+        } else {
+            System.out.println("no more elements");
+            return null;
+        }
+    }
+
     @Override
     public int size() {
         return size;
