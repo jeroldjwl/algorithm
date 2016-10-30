@@ -53,7 +53,6 @@ public class LinkListAlgorithm {
     }
 
     // 2. 判断给定链表是NULL结尾还是形成一个环
-
     public boolean isCircle(Node header) {
         if (header == null) {
             return false;
@@ -99,7 +98,6 @@ public class LinkListAlgorithm {
     }
 
     // 4. 给定两个链表，判断两个链表是否有公共结点
-
     public boolean hasSameNode(Node node1, Node node2) {
         if (node1 == null || node2 == null) {
             return false;
@@ -147,6 +145,206 @@ public class LinkListAlgorithm {
         return hasSameNode;
     }
 
+    // 5. 逆置单链表
+    public void reverse(Node header) {
+        Node tmp = null, nextNode = null;
+        while (header != null) {
+            nextNode = header.next;
+            header.setNext(tmp);
+            tmp = header;
+            header = nextNode;
+        }
+    }
+
+    // 6. 合并两个有序链表
+    public Node mergeList(Node a, Node b) {
+        Node result = null;
+        if (a == null)
+            return b;
+        if (b == null)
+            return a;
+        if (a.v <= b.v) {
+            result = a;
+            a = a.next;
+        } else {
+            result = b;
+            b = b.next;
+        }
+        while (a != null && b != null) {
+            if (a.v <= b.v) {
+                result.next = a;
+                a = a.next;
+            } else {
+                result.next = b;
+                b = b.next;
+            }
+        }
+        if (a != null) {
+            result.next = b;
+            a = a.next;
+        }
+        if (b != null) {
+            result.next = b;
+            b = b.next;
+        }
+        return result;
+    }
+
+    // 不是很明白这种算法
+    public Node mergeList1(Node a, Node b) {
+        Node result = null;
+        if (a == null) return b;
+        if (b == null) return a;
+        if (a.v <= b.v) {
+            result = a;
+            result.setNext(mergeList1(a.next, b));
+        } else {
+            result = b;
+            result.setNext(mergeList1(b.next, a));
+        }
+        return result;
+    }
+
+    // 7. 逐对逆置单链表
+    // 1 --> 2 --> 3 --> 4 --> NULLL
+    // 2 --> 1 --> 4 --> 3 --> NULL
+    public void reverseDouble(Node head) {
+        Node nextNode = head;
+        while (nextNode != null && nextNode.next != null) {
+            Node current = nextNode;
+            nextNode = nextNode.next.next;
+            current.next.next = current;
+            current.next = nextNode;
+        }
+    }
+
+    // 8. 把循环链表分成两个单链表，如果是奇数结点，把多的那个放在第一个链表中
+    public void splitList(Node head) {
+        Node first;
+        Node second;
+        Node fast = head;
+        Node slow = head;
+        while (fast.next != head && fast.next.next != head) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        second = slow.next.next;
+        slow.next.next = null;
+        if (fast.next == head) {
+            fast.next = null;
+        } else {
+            fast.next.next = null;
+        }
+        first = head;
+    }
+
+    // 9. 给定K，逆置链表中包含K个结点的块
+    //    1 --> 2 --> 3 --> 4 --> 5 --> NULL
+    //k=2:2 --> 1 --> 4 --> 3 --> 5 --> NULL
+    public Node reverseK(Node begin, int k) {
+        if (k < 0 || begin == null)
+            return null;
+        Node nextKNode = nextKNode(begin, k);
+        if (nextKNode != null) {
+            Node tmp = reverseK(nextKNode, k);
+            return reverse(begin, k, tmp);
+        } else {
+            return reverse(begin, k, null);
+        }
+    }
+
+    private Node reverse(Node node, int k, Node pointTo) {
+        if (node == null)
+            return null;
+        Node current = node;
+        Node tmp = pointTo;
+        Node nextNode;
+        for (int i = 0; i < k; i++) {
+            nextNode = current.next;
+            current.next = tmp;
+            tmp = current;
+            if (nextNode == null)
+                break;
+            current = nextNode;
+        }
+        return tmp;
+    }
+
+    private Node nextKNode(Node begin, int k) {
+        if (begin == null)
+            return null;
+        Node current = begin;
+        for (int i = 0; i < k; i++) {
+            if (current == null) {
+                break;
+            }
+            current = current.next;
+        }
+        return current;
+    }
+
+    // 10. 约瑟夫环问题 N个人中选领导，每隔M个移除一人，求最后剩下的那个。
+    private Node joseph(Node head, int m) {
+        if (head == null)
+            return null;
+        Node current = head;
+        while (current.next != current) {
+            for (int i = 0; i < m - 1; i++) {
+                current = current.next;
+            }
+            Node tmp = current.next;
+            current.next = current.next.next;
+            tmp = null;
+        }
+        return current;
+    }
+
+    public Node joseph(int n, int m) {
+        Node head, tail;
+        head = new Node(1);
+        tail = head;
+        for (int i = 2; i <= n; i++) {
+            Node node = new Node(i);
+            tail.next = node;
+            tail = node;
+        }
+        tail.next = head;
+        // return joseph(head, m);
+        for (int count = n; count > 1; count--) {
+            for (int i = 0; i < m - 1; i++) {
+                head = head.next;
+            }
+            head.next = head.next.next;
+        }
+        System.out.println(head.v);
+        return head;
+    }
+
+    public static void main(String[] args) {
+        LinkListAlgorithm lla = new LinkListAlgorithm();
+        Node n = lla.joseph(41, 3);
+        System.out.println(n.v);
+
+    }
+
+    // 11. copy link
+    public Node copy(Node head) {
+        Node X, Y;
+        X = head;
+        Map map = new HashMap();
+        while (X != null) {
+            Y = new Node(X.v);
+            Y.next = null;
+            map.put(X, Y);
+        }
+        X = head;
+        while (X != null) {
+            Y = (Node) map.get(X);
+            Y.setNext((Node) map.get(X.next));
+        }
+        return (Node) map.get(head);
+    }
+
     private class Node {
         int v;
         Node next;
@@ -154,6 +352,10 @@ public class LinkListAlgorithm {
         Node(int i) {
             this.v = i;
             this.next = null;
+        }
+
+        public void setNext(Node next) {
+            this.next = next;
         }
     }
 
