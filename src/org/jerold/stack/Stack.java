@@ -30,4 +30,8 @@ public class Stack {
             throw new IllegalArgumentException("no more data in stack");
         }
     }
+
+    public boolean isEmpty() {
+        return top < 0;
+    }
 }

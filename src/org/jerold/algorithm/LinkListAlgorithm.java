@@ -1,5 +1,7 @@
 package org.jerold.algorithm;
 
+import org.jerold.stack.Stack;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -343,6 +345,52 @@ public class LinkListAlgorithm {
             Y.setNext((Node) map.get(X.next));
         }
         return (Node) map.get(head);
+    }
+
+    // 12. 判断字符串是否是回文
+    public boolean isCircleString1(String str) {
+        if (str == null)
+            return false;
+        boolean isCircle = true;
+        char[] chars = str.toCharArray();
+        int head = 0;
+        int tail = chars.length - 1;
+        while (head != tail) {
+            if (chars[head] != chars[tail]) {
+                isCircle = false;
+                break;
+            }
+            head++;
+            tail--;
+        }
+        return isCircle;
+    }
+
+    public boolean isCircleLink(Node link) {
+        boolean isCircle = true;
+        Node current = link;
+        int count = 0;
+        Stack stack = new Stack();
+        while (current != null) {
+            count++;
+            current = current.next;
+        }
+        if (count % 2 == 0)
+            count = count / 2;
+        else count = count / 2 + 1;
+        current = link;
+        for (int i = 0; i < count; i++) {
+            stack.push(current.v);
+            current = current.next;
+        }
+        while (current != null) {
+            if (stack.pop() != current.v) {
+                isCircle = false;
+                break;
+            }
+            current = current.next;
+        }
+        return isCircle;
     }
 
     private class Node {
