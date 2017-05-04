@@ -1,4 +1,4 @@
-package org.jerold;
+package org.jerold.queue;
 
 /**
  * Created by Jerold on 2016/11/4.
