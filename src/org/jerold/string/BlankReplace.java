@@ -7,7 +7,7 @@ public class BlankReplace {
     public static void main(String[] args) {
         String str = "We are happy";
         String str2 = null;
-        String ret = blankReplace(str2);
+        String ret = blankReplace(str);
         System.out.println(ret);
         System.out.println(str.trim());
     }
